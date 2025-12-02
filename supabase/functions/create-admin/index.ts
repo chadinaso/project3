@@ -27,7 +27,54 @@ Deno.serve(async (req: Request) => {
       }
     );
 
-    // Create admin user
+    // Check if admin user already exists
+    const { data: existingUsers } = await supabaseAdmin.auth.admin.listUsers();
+    const existingAdmin = existingUsers?.users.find(u => u.email === "admin@jara.com");
+
+    if (existingAdmin) {
+      // Update existing user's password
+      const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(
+        existingAdmin.id,
+        { password: "admin123" }
+      );
+
+      if (updateError) {
+        console.error("Error updating password:", updateError);
+        return new Response(
+          JSON.stringify({ error: updateError.message }),
+          {
+            status: 400,
+            headers: {
+              ...corsHeaders,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      }
+
+      // Ensure profile has admin role
+      await supabaseAdmin
+        .from("profiles")
+        .update({ role: "admin" })
+        .eq("id", existingAdmin.id);
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: "Admin password reset successfully",
+          email: "admin@jara.com"
+        }),
+        {
+          status: 200,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+
+    // Create new admin user
     const { data: userData, error: userError } = await supabaseAdmin.auth.admin.createUser({
       email: "admin@jara.com",
       password: "admin123",
@@ -72,8 +119,8 @@ Deno.serve(async (req: Request) => {
     }
 
     return new Response(
-      JSON.stringify({ 
-        success: true, 
+      JSON.stringify({
+        success: true,
         message: "Admin user created successfully",
         email: "admin@jara.com"
       }),
