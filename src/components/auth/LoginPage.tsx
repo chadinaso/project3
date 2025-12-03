@@ -96,21 +96,7 @@ export default function LoginPage() {
               <div className="h-px w-8 bg-gradient-to-l from-transparent via-green-400 to-green-600"></div>
             </div>
 
-            <div className="flex items-center justify-center mt-3 h-20">
-              <div className="relative inline-flex items-start" style={{ fontFamily: "'Amiri', 'Arial', serif" }}>
-                <span className="text-5xl font-bold bg-gradient-to-r from-green-700 via-emerald-600 to-green-800 bg-clip-text text-transparent" style={{ textShadow: '0 2px 4px rgba(34, 197, 94, 0.3)', letterSpacing: '0.02em' }}>
-                  مشغ
-                </span>
-                <div className="relative inline-flex flex-col items-center" style={{ marginRight: '-8px' }}>
-                  <span className="text-3xl font-bold bg-gradient-to-r from-green-700 via-emerald-600 to-green-800 bg-clip-text text-transparent absolute -top-3 right-1" style={{ textShadow: '0 2px 4px rgba(34, 197, 94, 0.3)' }}>
-                    ة
-                  </span>
-                  <span className="text-6xl font-bold bg-gradient-to-r from-green-700 via-emerald-600 to-green-800 bg-clip-text text-transparent" style={{ textShadow: '0 2px 4px rgba(34, 197, 94, 0.3)', transform: 'translateY(8px)' }}>
-                    ر
-                  </span>
-                </div>
-              </div>
-            </div>
+            <p className="text-3xl font-arabic font-bold bg-gradient-to-r from-green-700 via-emerald-600 to-green-800 bg-clip-text text-transparent drop-shadow-lg mt-3" style={{ fontFamily: "'Amiri', 'Arial', serif", textShadow: '0 2px 4px rgba(34, 197, 94, 0.3)', letterSpacing: '0.05em' }}>مشغرة</p>
           </div>
 
           <div className="space-y-4">
