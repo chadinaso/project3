@@ -75,59 +75,8 @@ export default function LoginPage() {
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center p-4" dir="rtl">
         <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
           <div className="text-center mb-8">
-            <div className="relative flex justify-center mb-4">
-              {/* العلم اللبناني */}
-              <div className="absolute -top-6 left-1/2 -translate-x-1/2 z-10" style={{ opacity: 0.75 }}>
-                <div className="lebanese-flag-container">
-                  <svg className="lebanese-flag" width="80" height="54" viewBox="0 0 80 54" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <filter id="flag-shadow">
-                        <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.3"/>
-                      </filter>
-                    </defs>
-
-                    {/* الشريط الأحمر العلوي */}
-                    <rect x="0" y="0" width="80" height="13.5" fill="#ED1C24" filter="url(#flag-shadow)"/>
-
-                    {/* الشريط الأبيض الأوسط */}
-                    <rect x="0" y="13.5" width="80" height="27" fill="#FFFFFF" filter="url(#flag-shadow)"/>
-
-                    {/* شجرة الأرز - بتفاصيل أكثر واقعية */}
-                    <g transform="translate(40, 27)">
-                      {/* جذع الشجرة */}
-                      <rect x="-2" y="6" width="4" height="6" fill="#8B4513" opacity="0.9"/>
-
-                      {/* الطبقة السفلى من الأوراق */}
-                      <path d="M -12 6 L 0 -3 L 12 6 Z" fill="#00823F" opacity="0.95"/>
-                      <path d="M -12 6 L 0 -3 L 12 6 Z" fill="#006B35" opacity="0.3" transform="translate(0, 0.5)"/>
-
-                      {/* الطبقة الوسطى */}
-                      <path d="M -9 2 L 0 -6 L 9 2 Z" fill="#00A651" opacity="0.95"/>
-                      <path d="M -9 2 L 0 -6 L 9 2 Z" fill="#008942" opacity="0.3" transform="translate(0, 0.5)"/>
-
-                      {/* الطبقة العليا */}
-                      <path d="M -6 -2 L 0 -9 L 6 -2 Z" fill="#00C853" opacity="0.95"/>
-                      <path d="M -6 -2 L 0 -9 L 6 -2 Z" fill="#00A644" opacity="0.3" transform="translate(0, 0.5)"/>
-
-                      {/* قمة الشجرة */}
-                      <path d="M -3 -6 L 0 -11 L 3 -6 Z" fill="#76FF03" opacity="0.9"/>
-
-                      {/* تفاصيل إضافية للأوراق */}
-                      <line x1="0" y1="-3" x2="0" y2="6" stroke="#005A2E" strokeWidth="0.5" opacity="0.6"/>
-                      <line x1="-8" y1="4" x2="0" y2="-4" stroke="#005A2E" strokeWidth="0.3" opacity="0.4"/>
-                      <line x1="8" y1="4" x2="0" y2="-4" stroke="#005A2E" strokeWidth="0.3" opacity="0.4"/>
-                    </g>
-
-                    {/* الشريط الأحمر السفلي */}
-                    <rect x="0" y="40.5" width="80" height="13.5" fill="#ED1C24" filter="url(#flag-shadow)"/>
-
-                    {/* حدود العلم للواقعية */}
-                    <rect x="0" y="0" width="80" height="54" fill="none" stroke="rgba(0,0,0,0.1)" strokeWidth="0.5"/>
-                  </svg>
-                </div>
-              </div>
-
-              <img src="/jara.jpg" alt="جارة القمر" className="h-32 w-auto relative" style={{ marginTop: '20px' }} />
+            <div className="flex justify-center mb-4">
+              <img src="/jara.jpg" alt="جارة القمر" className="h-32 w-auto" />
             </div>
 
             <h1 className="text-4xl font-bold mb-2 bg-gradient-to-br from-green-700 via-emerald-600 to-green-800 bg-clip-text text-transparent relative px-4" style={{
