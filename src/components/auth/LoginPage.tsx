@@ -78,7 +78,7 @@ export default function LoginPage() {
             <div className="flex justify-center mb-4">
               <img src="/jara.jpg" alt="جارة القمر" className="h-32 w-auto" />
             </div>
-            <h1 className="text-3xl font-bold text-green-800 mb-2 animate-flashing-glow">منتوجات قلب القمر العضوية</h1>
+            <h1 className="text-3xl font-bold mb-2 bg-gradient-to-b from-amber-700 via-amber-600 to-amber-800 bg-clip-text text-transparent" style={{ textShadow: '0 2px 8px rgba(180, 83, 9, 0.3)', filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))' }}>تعاونية قلب القمر</h1>
             <p className="text-4xl font-arabic font-bold bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 bg-clip-text text-transparent drop-shadow-lg" style={{ fontFamily: "'Amiri', 'Arial', serif", textShadow: '0 2px 4px rgba(0,0,0,0.1)', letterSpacing: '0.05em' }}>مشغرة</p>
           </div>
 
