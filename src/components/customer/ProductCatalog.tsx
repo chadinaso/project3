@@ -63,7 +63,7 @@ export default function ProductCatalog({ searchTerm }: Props) {
   return (
     <div>
       <div className="mb-6">
-        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+        <div className="flex flex-wrap gap-2">
           {CATEGORIES.map((category) => (
             <button
               key={category}
