@@ -96,7 +96,7 @@ export default function LoginPage() {
               <div className="h-px w-8 bg-gradient-to-l from-transparent via-green-400 to-green-600"></div>
             </div>
 
-            <p className="text-3xl font-arabic font-bold bg-gradient-to-r from-sky-500 via-blue-400 to-sky-600 bg-clip-text text-transparent drop-shadow-lg mt-3" style={{ fontFamily: "'Amiri', 'Arial', serif", textShadow: '0 2px 4px rgba(0,0,0,0.1)', letterSpacing: '0.05em' }}>مشغرة</p>
+            <p className="text-3xl font-arabic font-bold bg-gradient-to-r from-green-700 via-emerald-600 to-green-800 bg-clip-text text-transparent drop-shadow-lg mt-3" style={{ fontFamily: "'Amiri', 'Arial', serif", textShadow: '0 2px 4px rgba(34, 197, 94, 0.3)', letterSpacing: '0.05em' }}>مشغرة</p>
           </div>
 
           <div className="space-y-4">
