@@ -153,6 +153,12 @@ export default function LoginPage() {
               تسجيل زبون جديد
             </button>
           </div>
+
+          <div className="mt-6 pt-4 border-t border-gray-200">
+            <p className="text-xs text-center text-gray-500 leading-relaxed">
+              تصميم الأستاذ شادي نصار<br />وفكرة الحاجة خولة عيسى 2025
+            </p>
+          </div>
         </div>
       </div>
     );
