@@ -24,6 +24,45 @@
   animation: marquee 20s linear infinite;
 }
 
+@keyframes flashingGlow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    text-shadow:
+      0 0 10px rgba(245, 158, 11, 0.8),
+      0 0 20px rgba(245, 158, 11, 0.6),
+      0 0 30px rgba(245, 158, 11, 0.4),
+      0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  25% {
+    opacity: 0.4;
+    transform: scale(0.98);
+    text-shadow:
+      0 0 5px rgba(245, 158, 11, 0.4),
+      0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+    text-shadow:
+      0 0 15px rgba(245, 158, 11, 1),
+      0 0 25px rgba(245, 158, 11, 0.8),
+      0 0 35px rgba(245, 158, 11, 0.6),
+      0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  75% {
+    opacity: 0.5;
+    transform: scale(0.99);
+    text-shadow:
+      0 0 8px rgba(245, 158, 11, 0.5),
+      0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.animate-flashing-glow {
+  animation: flashingGlow 2.5s ease-in-out infinite;
+}
+
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
