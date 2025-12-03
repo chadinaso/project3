@@ -62,7 +62,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email,
       password,
     });
-    if (error) throw error;
+    if (error) {
+      if (error.message === 'Invalid login credentials') {
+        throw new Error('إدخال خاطئ');
+      }
+      throw error;
+    }
   };
 
   const signUp = async (email: string, password: string, fullName: string, phone: string, area: string, customArea: string, detailedAddress: string) => {
