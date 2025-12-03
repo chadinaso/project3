@@ -237,14 +237,23 @@ export default function OrderManagement() {
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
                 <span className="text-gray-700 text-xs sm:text-sm">رقم الهاتف:</span>
-                <a
-                  href={`https://wa.me/${selectedOrder.phone}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold text-green-600 hover:text-green-800 hover:underline text-xs sm:text-sm"
-                >
-                  {selectedOrder.phone}
-                </a>
+                {selectedOrder.status === 'confirmed' ? (
+                  <button
+                    onClick={() => sendConfirmationToCustomer(selectedOrder.id)}
+                    className="font-semibold text-green-600 hover:text-green-800 hover:underline text-xs sm:text-sm"
+                  >
+                    {selectedOrder.phone}
+                  </button>
+                ) : (
+                  <a
+                    href={`https://wa.me/${selectedOrder.phone}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-green-600 hover:text-green-800 hover:underline text-xs sm:text-sm"
+                  >
+                    {selectedOrder.phone}
+                  </a>
+                )}
               </div>
 
               <div className="flex items-center gap-2">
