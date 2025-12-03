@@ -97,7 +97,7 @@ export default function LoginPage() {
             </div>
 
             <div className="flex justify-center mt-3">
-              <img src="/machghara logo.png" alt="مشغرة" className="h-20 w-auto drop-shadow-lg" style={{ filter: 'drop-shadow(0 2px 4px rgba(34, 197, 94, 0.3))' }} />
+              <img src="/machghara logo.png" alt="مشغرة" className="h-20 w-auto drop-shadow-lg" style={{ filter: 'brightness(0) saturate(100%) invert(35%) sepia(75%) saturate(650%) hue-rotate(90deg) brightness(95%) contrast(95%) drop-shadow(0 2px 4px rgba(34, 197, 94, 0.3))' }} />
             </div>
           </div>
 
