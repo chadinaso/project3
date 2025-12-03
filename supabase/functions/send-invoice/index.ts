@@ -77,9 +77,9 @@ Deno.serve(async (req: Request) => {
     invoice += "\u202B         \u062f\u0645\u062a\u0645 \u0628\u062e\u064a\u0631 \u0648\u0635\u062d\u0629 \ud83c\udf3f         \u202C\n\n";
     invoice += "\u202B\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u202C";
 
-    const whatsappNumber = '9613644728';
+    const adminWhatsappNumber = '9613644728';
     const whatsappMessage = encodeURIComponent(invoice);
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+    const whatsappUrl = `https://wa.me/${adminWhatsappNumber}?text=${whatsappMessage}`;
 
     return new Response(
       JSON.stringify({
