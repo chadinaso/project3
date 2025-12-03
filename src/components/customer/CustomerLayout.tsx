@@ -63,7 +63,15 @@ export default function CustomerLayout({ children, onSearch, onCartClick }: Prop
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <img src="/jara.jpg" alt="جارة القمر" className="h-16 w-auto" />
+              <img
+                src="/jara.jpg"
+                alt="جارة القمر"
+                className="h-16 w-auto cursor-pointer hover:opacity-80 transition"
+                onClick={() => {
+                  onSearch('');
+                  signOut();
+                }}
+              />
             </div>
 
             <form onSubmit={handleSearch} className="flex-1 max-w-md hidden md:block">
