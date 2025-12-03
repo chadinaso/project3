@@ -79,48 +79,14 @@ export default function LoginPage() {
               <img src="/jara.jpg" alt="جارة القمر" className="h-32 w-auto" />
             </div>
 
-            <div className="relative inline-block px-16">
-              {/* أوراق شجر كبيرة على الجانبين */}
-              <div className="absolute -right-14 top-1/2 -translate-y-1/2 animate-leaf-float">
-                <Leaf className="w-10 h-10 text-green-600 transform -rotate-45" style={{ filter: 'drop-shadow(0 2px 4px rgba(22, 163, 74, 0.3))' }} />
-              </div>
-              <div className="absolute -left-14 top-1/2 -translate-y-1/2 animate-leaf-float" style={{ animationDelay: '1s' }}>
-                <Leaf className="w-10 h-10 text-green-600 transform rotate-45" style={{ filter: 'drop-shadow(0 2px 4px rgba(22, 163, 74, 0.3))' }} />
-              </div>
-
-              {/* أوراق متوسطة */}
-              <div className="absolute -right-7 -top-3 animate-gentle-pulse">
-                <Leaf className="w-6 h-6 text-emerald-500 transform -rotate-12" style={{ filter: 'drop-shadow(0 1px 2px rgba(16, 185, 129, 0.3))' }} />
-              </div>
-              <div className="absolute -left-7 -top-3 animate-gentle-pulse" style={{ animationDelay: '0.5s' }}>
-                <Leaf className="w-6 h-6 text-emerald-500 transform rotate-12" style={{ filter: 'drop-shadow(0 1px 2px rgba(16, 185, 129, 0.3))' }} />
-              </div>
-
-              {/* أوراق صغيرة للتفاصيل */}
-              <div className="absolute -right-10 bottom-1 animate-gentle-pulse" style={{ animationDelay: '1.5s' }}>
-                <Leaf className="w-5 h-5 text-green-700 opacity-80 transform -rotate-90" />
-              </div>
-              <div className="absolute -left-10 bottom-1 animate-gentle-pulse" style={{ animationDelay: '0.8s' }}>
-                <Leaf className="w-5 h-5 text-green-700 opacity-80 transform rotate-90" />
-              </div>
-
-              {/* أوراق دقيقة إضافية */}
-              <div className="absolute -right-4 top-1/2 animate-pulse" style={{ animationDelay: '2s' }}>
-                <div className="w-2 h-2 bg-green-500 rounded-full opacity-60"></div>
-              </div>
-              <div className="absolute -left-4 top-1/2 animate-pulse" style={{ animationDelay: '2.3s' }}>
-                <div className="w-2 h-2 bg-green-500 rounded-full opacity-60"></div>
-              </div>
-
-              <h1 className="text-4xl font-bold mb-2 bg-gradient-to-br from-green-700 via-emerald-600 to-green-800 bg-clip-text text-transparent relative px-4" style={{
-                filter: 'drop-shadow(0 3px 6px rgba(34, 197, 94, 0.4))',
-                fontFamily: "'Amiri', serif",
-                letterSpacing: '0.03em',
-                textShadow: '0 0 20px rgba(34, 197, 94, 0.15)'
-              }}>
-                تعاونية قلب القمر
-              </h1>
-            </div>
+            <h1 className="text-4xl font-bold mb-2 bg-gradient-to-br from-green-700 via-emerald-600 to-green-800 bg-clip-text text-transparent relative px-4" style={{
+              filter: 'drop-shadow(0 3px 6px rgba(34, 197, 94, 0.4))',
+              fontFamily: "'Amiri', serif",
+              letterSpacing: '0.03em',
+              textShadow: '0 0 20px rgba(34, 197, 94, 0.15)'
+            }}>
+              تعاونية قلب القمر
+            </h1>
 
             <div className="flex items-center justify-center gap-2 mt-1">
               <div className="h-px w-8 bg-gradient-to-r from-transparent via-green-400 to-green-600"></div>
@@ -155,9 +121,28 @@ export default function LoginPage() {
           </div>
 
           <div className="mt-6 pt-4 border-t border-gray-200">
-            <p className="text-xs text-center text-gray-500 leading-relaxed">
-              تصميم الأستاذ شادي نصار<br />وفكرة الحاجة خولة عيسى 2025
-            </p>
+            <div className="relative inline-block w-full">
+              {/* أوراق صغيرة حول النص */}
+              <div className="absolute left-1/2 -translate-x-1/2 top-0 w-48">
+                <div className="absolute -right-8 top-0 animate-leaf-float">
+                  <Leaf className="w-4 h-4 text-green-600 transform -rotate-45 opacity-70" style={{ filter: 'drop-shadow(0 1px 2px rgba(22, 163, 74, 0.3))' }} />
+                </div>
+                <div className="absolute -left-8 top-0 animate-leaf-float" style={{ animationDelay: '0.8s' }}>
+                  <Leaf className="w-4 h-4 text-green-600 transform rotate-45 opacity-70" style={{ filter: 'drop-shadow(0 1px 2px rgba(22, 163, 74, 0.3))' }} />
+                </div>
+
+                <div className="absolute -right-5 top-1 animate-gentle-pulse" style={{ animationDelay: '0.3s' }}>
+                  <Leaf className="w-3 h-3 text-emerald-500 transform -rotate-12 opacity-60" />
+                </div>
+                <div className="absolute -left-5 top-1 animate-gentle-pulse" style={{ animationDelay: '1s' }}>
+                  <Leaf className="w-3 h-3 text-emerald-500 transform rotate-12 opacity-60" />
+                </div>
+              </div>
+
+              <p className="text-xs text-center text-gray-500 leading-relaxed">
+                تصميم الأستاذ شادي نصار<br />وفكرة الحاجة خولة عيسى 2025
+              </p>
+            </div>
           </div>
         </div>
       </div>
