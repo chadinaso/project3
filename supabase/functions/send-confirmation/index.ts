@@ -22,7 +22,7 @@ Deno.serve(async (req: Request) => {
   try {
     const { phone, customerName }: ConfirmationRequest = await req.json();
 
-    const message = `\u202B🌙 *جارة القمر* 🌙\u202C\n\n\u202B✅ *تم تأكيد طلبك*\u202C\n\n\u202B📦 *البضاعة في طريقها اليك*\u202C\n\n\u202Bشكراً لكم على ثقتكم بمنتوجاتنا العضوية\u202C\n\n\u202B🌿 دمتم بخير وصحة 🌿\u202C\n\n\u202B*منتوجات قلب القمر - مشغرة*\u202C`;
+    const message = `\u202B🌙 *جارة القمر* 🌙\u202C\n\n\u202B📦 *البضاعة في طريقها اليكم*\u202C\n\n\u202Bشكراً لكم على شراء منتجاتنا\u202C\n\n\u202B*منتوجات قلب القمر - مشغرة*\u202C`;
 
     const whatsappMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${phone}?text=${whatsappMessage}`;
