@@ -78,8 +78,59 @@ export default function LoginPage() {
             <div className="flex justify-center mb-4">
               <img src="/jara.jpg" alt="جارة القمر" className="h-32 w-auto" />
             </div>
-            <h1 className="text-3xl font-bold mb-2 bg-gradient-to-b from-amber-700 via-amber-600 to-amber-800 bg-clip-text text-transparent" style={{ textShadow: '0 2px 8px rgba(180, 83, 9, 0.3)', filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))' }}>تعاونية قلب القمر</h1>
-            <p className="text-4xl font-arabic font-bold bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 bg-clip-text text-transparent drop-shadow-lg" style={{ fontFamily: "'Amiri', 'Arial', serif", textShadow: '0 2px 4px rgba(0,0,0,0.1)', letterSpacing: '0.05em' }}>مشغرة</p>
+
+            <div className="relative inline-block px-16">
+              {/* أوراق شجر كبيرة على الجانبين */}
+              <div className="absolute -right-14 top-1/2 -translate-y-1/2 animate-leaf-float">
+                <Leaf className="w-10 h-10 text-green-600 transform -rotate-45" style={{ filter: 'drop-shadow(0 2px 4px rgba(22, 163, 74, 0.3))' }} />
+              </div>
+              <div className="absolute -left-14 top-1/2 -translate-y-1/2 animate-leaf-float" style={{ animationDelay: '1s' }}>
+                <Leaf className="w-10 h-10 text-green-600 transform rotate-45" style={{ filter: 'drop-shadow(0 2px 4px rgba(22, 163, 74, 0.3))' }} />
+              </div>
+
+              {/* أوراق متوسطة */}
+              <div className="absolute -right-7 -top-3 animate-gentle-pulse">
+                <Leaf className="w-6 h-6 text-emerald-500 transform -rotate-12" style={{ filter: 'drop-shadow(0 1px 2px rgba(16, 185, 129, 0.3))' }} />
+              </div>
+              <div className="absolute -left-7 -top-3 animate-gentle-pulse" style={{ animationDelay: '0.5s' }}>
+                <Leaf className="w-6 h-6 text-emerald-500 transform rotate-12" style={{ filter: 'drop-shadow(0 1px 2px rgba(16, 185, 129, 0.3))' }} />
+              </div>
+
+              {/* أوراق صغيرة للتفاصيل */}
+              <div className="absolute -right-10 bottom-1 animate-gentle-pulse" style={{ animationDelay: '1.5s' }}>
+                <Leaf className="w-5 h-5 text-green-700 opacity-80 transform -rotate-90" />
+              </div>
+              <div className="absolute -left-10 bottom-1 animate-gentle-pulse" style={{ animationDelay: '0.8s' }}>
+                <Leaf className="w-5 h-5 text-green-700 opacity-80 transform rotate-90" />
+              </div>
+
+              {/* أوراق دقيقة إضافية */}
+              <div className="absolute -right-4 top-1/2 animate-pulse" style={{ animationDelay: '2s' }}>
+                <div className="w-2 h-2 bg-green-500 rounded-full opacity-60"></div>
+              </div>
+              <div className="absolute -left-4 top-1/2 animate-pulse" style={{ animationDelay: '2.3s' }}>
+                <div className="w-2 h-2 bg-green-500 rounded-full opacity-60"></div>
+              </div>
+
+              <h1 className="text-4xl font-bold mb-2 bg-gradient-to-br from-green-700 via-emerald-600 to-green-800 bg-clip-text text-transparent relative px-4" style={{
+                filter: 'drop-shadow(0 3px 6px rgba(34, 197, 94, 0.4))',
+                fontFamily: "'Amiri', serif",
+                letterSpacing: '0.03em',
+                textShadow: '0 0 20px rgba(34, 197, 94, 0.15)'
+              }}>
+                تعاونية قلب القمر
+              </h1>
+            </div>
+
+            <div className="flex items-center justify-center gap-2 mt-1">
+              <div className="h-px w-8 bg-gradient-to-r from-transparent via-green-400 to-green-600"></div>
+              <Leaf className="w-4 h-4 text-green-600" />
+              <p className="text-xl font-semibold text-green-800" style={{ letterSpacing: '0.05em' }}>منتجات عضوية طبيعية</p>
+              <Leaf className="w-4 h-4 text-green-600" />
+              <div className="h-px w-8 bg-gradient-to-l from-transparent via-green-400 to-green-600"></div>
+            </div>
+
+            <p className="text-3xl font-arabic font-bold bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 bg-clip-text text-transparent drop-shadow-lg mt-3" style={{ fontFamily: "'Amiri', 'Arial', serif", textShadow: '0 2px 4px rgba(0,0,0,0.1)', letterSpacing: '0.05em' }}>مشغرة</p>
           </div>
 
           <div className="space-y-4">
