@@ -94,6 +94,43 @@
   animation: gentlePulse 2s ease-in-out infinite;
 }
 
+@keyframes flagWave {
+  0% {
+    transform: perspective(600px) rotateY(0deg) rotateX(0deg);
+  }
+  20% {
+    transform: perspective(600px) rotateY(-8deg) rotateX(2deg);
+  }
+  40% {
+    transform: perspective(600px) rotateY(8deg) rotateX(-2deg);
+  }
+  60% {
+    transform: perspective(600px) rotateY(-6deg) rotateX(1deg);
+  }
+  80% {
+    transform: perspective(600px) rotateY(6deg) rotateX(-1deg);
+  }
+  100% {
+    transform: perspective(600px) rotateY(0deg) rotateX(0deg);
+  }
+}
+
+.lebanese-flag-container {
+  animation: flagWave 3s ease-in-out infinite;
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 4px 8px rgba(237, 28, 36, 0.3));
+}
+
+.lebanese-flag {
+  display: block;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.lebanese-flag-container:hover .lebanese-flag {
+  filter: brightness(1.1);
+}
+
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
