@@ -77,7 +77,7 @@ export default function LoginPage() {
           <div className="text-center mb-8">
             <div className="relative flex justify-center mb-4">
               {/* العلم اللبناني */}
-              <div className="absolute -top-6 left-1/2 -translate-x-1/2 z-10">
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 z-10" style={{ opacity: 0.75 }}>
                 <div className="lebanese-flag-container">
                   <svg className="lebanese-flag" width="80" height="54" viewBox="0 0 80 54" xmlns="http://www.w3.org/2000/svg">
                     <defs>
