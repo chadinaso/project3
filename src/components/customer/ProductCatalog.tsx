@@ -63,12 +63,12 @@ export default function ProductCatalog({ searchTerm }: Props) {
   return (
     <div>
       <div className="mb-6">
-        <div className="flex gap-2 overflow-x-auto pb-2">
+        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
           {CATEGORIES.map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition ${
+              className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg font-semibold whitespace-nowrap transition text-sm sm:text-base ${
                 selectedCategory === category
                   ? 'bg-green-600 text-white'
                   : 'bg-white text-gray-700 hover:bg-green-50 border border-gray-200'
