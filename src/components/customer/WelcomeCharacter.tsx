@@ -5,9 +5,9 @@ export default function WelcomeCharacter() {
     <div className="relative group cursor-pointer hidden md:block">
       <div className="relative">
         <svg
-          width="60"
+          width="80"
           height="60"
-          viewBox="0 0 160 180"
+          viewBox="0 0 220 180"
           className="drop-shadow-xl"
         >
           <defs>
@@ -42,6 +42,21 @@ export default function WelcomeCharacter() {
                 0%, 100% { transform: translateY(0); }
                 50% { transform: translateY(-3px); }
               }
+              .tree-sway {
+                animation: sway 4s ease-in-out infinite;
+                transform-origin: 170px 130px;
+              }
+              @keyframes sway {
+                0%, 100% { transform: rotate(-1deg); }
+                50% { transform: rotate(1deg); }
+              }
+              .leaf-rustle {
+                animation: rustle 3s ease-in-out infinite;
+              }
+              @keyframes rustle {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.02); }
+              }
             `}</style>
             <filter id="sketch">
               <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" result="noise" />
@@ -49,8 +64,39 @@ export default function WelcomeCharacter() {
             </filter>
           </defs>
 
+          {/* Apple Tree */}
+          <g className="tree-sway">
+            {/* Tree trunk */}
+            <path d="M 165 130 Q 168 110 170 90 Q 172 110 175 130" fill="#654321" stroke="#4a3520" strokeWidth="2" filter="url(#sketch)" />
+
+            {/* Branches */}
+            <path d="M 170 100 Q 160 95 155 92" stroke="#654321" strokeWidth="2" fill="none" filter="url(#sketch)" />
+            <path d="M 170 105 Q 180 100 185 97" stroke="#654321" strokeWidth="2" fill="none" filter="url(#sketch)" />
+
+            {/* Tree foliage - multiple circles for leaves */}
+            <g className="leaf-rustle">
+              <circle cx="170" cy="70" r="28" fill="#2F9E44" stroke="#1E7A32" strokeWidth="2" filter="url(#sketch)" opacity="0.9" />
+              <circle cx="150" cy="80" r="22" fill="#37B24D" stroke="#2F9E44" strokeWidth="1.5" filter="url(#sketch)" opacity="0.85" />
+              <circle cx="190" cy="82" r="22" fill="#37B24D" stroke="#2F9E44" strokeWidth="1.5" filter="url(#sketch)" opacity="0.85" />
+              <circle cx="170" cy="88" r="20" fill="#40C057" stroke="#37B24D" strokeWidth="1.5" filter="url(#sketch)" opacity="0.8" />
+            </g>
+
+            {/* Apples on tree */}
+            <circle cx="158" cy="75" r="4.5" fill="#FF6B6B" stroke="#C92A2A" strokeWidth="1" filter="url(#sketch)" />
+            <circle cx="182" cy="72" r="4.5" fill="#FF6B6B" stroke="#C92A2A" strokeWidth="1" filter="url(#sketch)" />
+            <circle cx="175" cy="82" r="4.5" fill="#FF6B6B" stroke="#C92A2A" strokeWidth="1" filter="url(#sketch)" />
+            <circle cx="163" cy="88" r="4.5" fill="#FF6B6B" stroke="#C92A2A" strokeWidth="1" filter="url(#sketch)" />
+            <circle cx="170" cy="66" r="4.5" fill="#FF6B6B" stroke="#C92A2A" strokeWidth="1" filter="url(#sketch)" />
+
+            {/* Small leaves details */}
+            <path d="M 168 68 Q 170 66 172 68" fill="#2F9E44" stroke="none" />
+            <path d="M 180 78 Q 182 76 184 78" fill="#2F9E44" stroke="none" />
+            <path d="M 160 82 Q 162 80 164 82" fill="#2F9E44" stroke="none" />
+          </g>
+
           {/* Shadow */}
           <ellipse cx="80" cy="172" rx="35" ry="5" fill="#000" opacity="0.2" />
+          <ellipse cx="170" cy="172" rx="22" ry="4" fill="#000" opacity="0.15" />
 
           {/* Legs - sketch style */}
           <path d="M 63 135 Q 64 150 65 168" stroke="#4a3520" strokeWidth="12" fill="none" strokeLinecap="round" filter="url(#sketch)" />
