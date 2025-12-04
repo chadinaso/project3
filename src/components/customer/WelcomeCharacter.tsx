@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function WelcomeCharacter() {
   return (
-    <div className="relative group cursor-pointer hidden md:block">
+    <div className="relative group cursor-pointer">
       <div className="relative">
         <svg
           width="80"
