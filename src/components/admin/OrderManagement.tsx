@@ -155,9 +155,21 @@ export default function OrderManagement() {
     return <div className="text-center py-12">جاري التحميل...</div>;
   }
 
+  const pendingOrdersCount = orders.filter(order => order.status === 'pending').length;
+
   return (
     <div>
-      <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">إدارة الطلبات</h1>
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">إدارة الطلبات</h1>
+        {pendingOrdersCount > 0 && (
+          <div className="bg-yellow-100 text-yellow-800 px-3 sm:px-4 py-2 rounded-lg border-2 border-yellow-300 flex items-center gap-2">
+            <span className="font-bold text-sm sm:text-base">طلبيات جديدة</span>
+            <span className="bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded-full min-w-[24px] text-center">
+              {pendingOrdersCount}
+            </span>
+          </div>
+        )}
+      </div>
 
       <div className="bg-white rounded-xl shadow-md overflow-hidden">
         <div className="overflow-x-auto">

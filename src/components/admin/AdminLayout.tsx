@@ -1,6 +1,7 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import { Leaf, Package, ShoppingCart, Users, Settings, LogOut, Menu, X, BarChart3 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { supabase } from '../../lib/supabase';
 
 type Props = {
   children: ReactNode;
@@ -11,6 +12,33 @@ type Props = {
 export default function AdminLayout({ children, currentPage, onNavigate }: Props) {
   const { signOut, profile } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [newOrdersCount, setNewOrdersCount] = useState(0);
+
+  useEffect(() => {
+    loadNewOrdersCount();
+
+    const channel = supabase
+      .channel('orders-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => {
+        loadNewOrdersCount();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  const loadNewOrdersCount = async () => {
+    const { count, error } = await supabase
+      .from('orders')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'pending');
+
+    if (!error && count !== null) {
+      setNewOrdersCount(count);
+    }
+  };
 
   const menuItems = [
     { id: 'dashboard' as const, label: 'الرئيسية', icon: Leaf },
@@ -88,7 +116,12 @@ export default function AdminLayout({ children, currentPage, onNavigate }: Props
                   }`}
                 >
                   <Icon className="w-5 h-5" />
-                  <span>{item.label}</span>
+                  <span className="flex-1 text-right">{item.label}</span>
+                  {item.id === 'orders' && newOrdersCount > 0 && (
+                    <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full min-w-[24px] text-center">
+                      {newOrdersCount}
+                    </span>
+                  )}
                 </button>
               );
             })}
