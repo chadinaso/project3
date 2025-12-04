@@ -55,11 +55,25 @@ export default function ProductCard({ product, onViewDetails }: Props) {
           <p className="text-sm text-gray-500 mb-2">{product.category}</p>
           <p className="text-gray-600 text-sm mb-3 line-clamp-2">{product.description}</p>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-2">
             <span className="text-2xl font-bold text-green-700">${product.price.toFixed(2)}</span>
             {product.weight && (
               <span className="text-sm text-gray-500">{product.weight}</span>
             )}
+          </div>
+
+          <div className="flex items-center justify-between">
+            <span className={`text-xs font-semibold ${
+              product.quantity === 0
+                ? 'text-red-600'
+                : product.quantity <= 5
+                  ? 'text-orange-600'
+                  : 'text-gray-600'
+            }`}>
+              {product.quantity === 0
+                ? 'الكمية نفذت'
+                : `متوفر: ${product.quantity} قطعة`}
+            </span>
           </div>
         </div>
       </div>
