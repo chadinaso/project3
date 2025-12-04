@@ -3,6 +3,7 @@ import { Leaf, ShoppingCart, User, LogOut, Search } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/CartContext';
 import { supabase } from '../../lib/supabase';
+import WelcomeCharacter from './WelcomeCharacter';
 
 type Props = {
   children: ReactNode;
@@ -143,6 +144,8 @@ export default function CustomerLayout({ children, onSearch, onCartClick }: Prop
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-6">{children}</main>
+
+      <WelcomeCharacter />
     </div>
   );
 }
