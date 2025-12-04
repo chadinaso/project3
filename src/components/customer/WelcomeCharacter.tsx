@@ -12,15 +12,13 @@ export default function WelcomeCharacter() {
         >
           <defs>
             <style>{`
-              .wave-hand {
-                animation: wave 2s ease-in-out infinite;
-                transform-origin: 115px 85px;
+              .pick-fruit {
+                animation: pick 3s ease-in-out infinite;
+                transform-origin: 120px 70px;
               }
-              @keyframes wave {
-                0%, 100% { transform: rotate(0deg); }
-                10%, 30% { transform: rotate(14deg); }
-                20%, 40% { transform: rotate(-8deg); }
-                50% { transform: rotate(0deg); }
+              @keyframes pick {
+                0%, 100% { transform: translateY(0) rotate(20deg); }
+                50% { transform: translateY(-8px) rotate(25deg); }
               }
               .blink-eye {
                 animation: blink 4s infinite;
@@ -29,130 +27,119 @@ export default function WelcomeCharacter() {
                 0%, 48%, 52%, 100% { opacity: 1; }
                 50% { opacity: 0; }
               }
-              .fez-tilt {
-                animation: fez-tilt 3s ease-in-out infinite;
-                transform-origin: 80px 35px;
+              .hat-wobble {
+                animation: wobble 3s ease-in-out infinite;
+                transform-origin: 80px 30px;
               }
-              @keyframes fez-tilt {
-                0%, 100% { transform: rotate(-5deg); }
+              @keyframes wobble {
+                0%, 100% { transform: rotate(-2deg); }
                 50% { transform: rotate(2deg); }
               }
-              .tassel-swing {
-                animation: tassel-swing 2s ease-in-out infinite;
-                transform-origin: 80px 20px;
+              .fruit-float {
+                animation: float 2s ease-in-out infinite;
               }
-              @keyframes tassel-swing {
-                0%, 100% { transform: rotate(-15deg); }
-                50% { transform: rotate(15deg); }
+              @keyframes float {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-3px); }
               }
             `}</style>
-            <linearGradient id="fezGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#8B0000" />
-              <stop offset="100%" stopColor="#DC143C" />
-            </linearGradient>
-            <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#1e40af" />
-              <stop offset="100%" stopColor="#1e3a8a" />
-            </linearGradient>
-            <linearGradient id="skinGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#FFE4C4" />
-              <stop offset="100%" stopColor="#FFD7A8" />
-            </linearGradient>
+            <filter id="sketch">
+              <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" result="noise" />
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" />
+            </filter>
           </defs>
 
           {/* Shadow */}
-          <ellipse cx="80" cy="172" rx="40" ry="6" fill="#000" opacity="0.15" />
+          <ellipse cx="80" cy="172" rx="35" ry="5" fill="#000" opacity="0.2" />
 
-          {/* Legs */}
-          <rect x="60" y="135" width="15" height="35" rx="7" fill="#1e3a8a" />
-          <rect x="85" y="135" width="15" height="35" rx="7" fill="#1e3a8a" />
+          {/* Legs - sketch style */}
+          <path d="M 63 135 Q 64 150 65 168" stroke="#4a3520" strokeWidth="12" fill="none" strokeLinecap="round" filter="url(#sketch)" />
+          <path d="M 88 135 Q 89 150 90 168" stroke="#4a3520" strokeWidth="12" fill="none" strokeLinecap="round" filter="url(#sketch)" />
 
-          {/* Shoes */}
-          <ellipse cx="67.5" cy="170" rx="10" ry="5" fill="#2c1810" />
-          <ellipse cx="92.5" cy="170" rx="10" ry="5" fill="#2c1810" />
+          {/* Simple shoes */}
+          <ellipse cx="65" cy="170" rx="8" ry="4" fill="#3d2817" filter="url(#sketch)" />
+          <ellipse cx="90" cy="170" rx="8" ry="4" fill="#3d2817" filter="url(#sketch)" />
 
-          {/* Body - Traditional Lebanese Vest */}
-          <path d="M 50 90 Q 50 85 55 85 L 105 85 Q 110 85 110 90 L 110 135 Q 110 140 105 140 L 55 140 Q 50 140 50 135 Z" fill="url(#bodyGradient)" />
+          {/* Body - Simple farmer shirt */}
+          <path d="M 50 88 L 48 135 L 112 135 L 110 88 Z" fill="#8B7355" stroke="#654321" strokeWidth="2" filter="url(#sketch)" />
 
-          {/* Vest Details */}
-          <line x1="80" y1="85" x2="80" y2="140" stroke="#FFD700" strokeWidth="2" />
-          <circle cx="80" cy="95" r="3" fill="#FFD700" />
-          <circle cx="80" cy="107" r="3" fill="#FFD700" />
-          <circle cx="80" cy="119" r="3" fill="#FFD700" />
-          <circle cx="80" cy="131" r="3" fill="#FFD700" />
+          {/* Shirt wrinkles - sketch lines */}
+          <line x1="70" y1="95" x2="68" y2="125" stroke="#654321" strokeWidth="1" opacity="0.3" />
+          <line x1="90" y1="95" x2="92" y2="125" stroke="#654321" strokeWidth="1" opacity="0.3" />
 
-          {/* White Shirt */}
-          <path d="M 60 85 L 60 95 Q 60 100 65 100 L 95 100 Q 100 100 100 95 L 100 85" fill="#ffffff" />
+          {/* Belt */}
+          <rect x="48" y="130" width="64" height="6" fill="#654321" filter="url(#sketch)" />
 
-          {/* Arms */}
-          <ellipse cx="40" cy="100" rx="10" ry="25" fill="url(#skinGradient)" transform="rotate(-15 40 100)" />
+          {/* Left arm down */}
+          <path d="M 48 95 Q 35 105 32 120" stroke="#D2B48C" strokeWidth="10" fill="none" strokeLinecap="round" filter="url(#sketch)" />
+          <circle cx="32" cy="123" r="6" fill="#D2B48C" filter="url(#sketch)" />
 
-          {/* Waving Arm */}
-          <g className="wave-hand">
-            <ellipse cx="120" cy="95" rx="10" ry="25" fill="url(#skinGradient)" transform="rotate(45 120 95)" />
-            <circle cx="130" cy="80" r="8" fill="url(#skinGradient)" />
-          </g>
+          {/* Right arm up - picking fruit */}
+          <g className="pick-fruit">
+            <path d="M 110 95 Q 118 75 125 65" stroke="#D2B48C" strokeWidth="10" fill="none" strokeLinecap="round" filter="url(#sketch)" />
+            <circle cx="127" cy="62" r="6" fill="#D2B48C" filter="url(#sketch)" />
 
-          {/* Neck */}
-          <rect x="72" y="70" width="16" height="15" fill="url(#skinGradient)" />
-
-          {/* Head */}
-          <ellipse cx="80" cy="55" rx="28" ry="32" fill="url(#skinGradient)" />
-
-          {/* Ears */}
-          <ellipse cx="52" cy="55" rx="5" ry="8" fill="#FFD7A8" />
-          <ellipse cx="108" cy="55" rx="5" ry="8" fill="#FFD7A8" />
-
-          {/* Lebanese Tarboush (Fez) */}
-          <g className="fez-tilt">
-            {/* Base of tarboush */}
-            <ellipse cx="80" cy="35" rx="24" ry="6" fill="#8B0000" />
-            {/* Main cone */}
-            <path d="M 56 35 Q 80 10 104 35 L 104 40 L 56 40 Z" fill="url(#fezGradient)" />
-            {/* Top circle */}
-            <ellipse cx="80" cy="40" rx="24" ry="5" fill="#DC143C" />
-            {/* Tassel */}
-            <g className="tassel-swing">
-              <line x1="80" y1="20" x2="90" y2="5" stroke="#FFD700" strokeWidth="1.5" />
-              <circle cx="90" cy="5" r="2.5" fill="#FFD700" />
-              <circle cx="90" cy="8" r="1.5" fill="#FFA500" />
-              <circle cx="89" cy="11" r="1.5" fill="#FFD700" />
-              <circle cx="91" cy="11" r="1.5" fill="#FFA500" />
+            {/* Hand holding fruit */}
+            <g className="fruit-float">
+              <circle cx="135" cy="55" r="6" fill="#FF6B6B" stroke="#C92A2A" strokeWidth="1.5" filter="url(#sketch)" />
+              <line x1="135" y1="49" x2="135" y2="46" stroke="#2F9E44" strokeWidth="2" strokeLinecap="round" />
+              <path d="M 135 46 Q 133 44 131 45" fill="#2F9E44" stroke="none" />
             </g>
           </g>
 
-          {/* Eyebrows */}
-          <path d="M 60 45 Q 65 43 70 44" stroke="#000" strokeWidth="2" fill="none" strokeLinecap="round" />
-          <path d="M 90 44 Q 95 43 100 45" stroke="#000" strokeWidth="2" fill="none" strokeLinecap="round" />
+          {/* Neck */}
+          <rect x="73" y="70" width="14" height="13" fill="#D2B48C" filter="url(#sketch)" />
+
+          {/* Head - sketch circle */}
+          <circle cx="80" cy="55" r="25" fill="#F4D4A8" stroke="#D2A679" strokeWidth="2" filter="url(#sketch)" />
+
+          {/* Ears */}
+          <ellipse cx="55" cy="55" rx="4" ry="7" fill="#E6C199" filter="url(#sketch)" />
+          <ellipse cx="105" cy="55" rx="4" ry="7" fill="#E6C199" filter="url(#sketch)" />
+
+          {/* Straw hat */}
+          <g className="hat-wobble">
+            {/* Hat brim */}
+            <ellipse cx="80" cy="35" rx="32" ry="8" fill="#DAA520" stroke="#B8860B" strokeWidth="2" filter="url(#sketch)" />
+            {/* Hat top */}
+            <path d="M 60 35 Q 65 22 80 20 Q 95 22 100 35 Z" fill="#F4C542" stroke="#B8860B" strokeWidth="2" filter="url(#sketch)" />
+            {/* Hat band */}
+            <ellipse cx="80" cy="35" rx="20" ry="3" fill="#8B4513" />
+            {/* Sketch lines on hat */}
+            <path d="M 60 30 Q 80 28 100 30" stroke="#B8860B" strokeWidth="1" fill="none" opacity="0.5" />
+          </g>
+
+          {/* Eyebrows - thick sketch */}
+          <path d="M 62 45 Q 68 43 73 44" stroke="#5D4E37" strokeWidth="2.5" fill="none" strokeLinecap="round" filter="url(#sketch)" />
+          <path d="M 87 44 Q 92 43 98 45" stroke="#5D4E37" strokeWidth="2.5" fill="none" strokeLinecap="round" filter="url(#sketch)" />
 
           {/* Eyes */}
           <g className="blink-eye">
-            <ellipse cx="65" cy="52" rx="5" ry="6" fill="#fff" />
-            <ellipse cx="95" cy="52" rx="5" ry="6" fill="#fff" />
-            <circle cx="65" cy="53" r="3.5" fill="#2c1810" />
-            <circle cx="95" cy="53" r="3.5" fill="#2c1810" />
-            <circle cx="66" cy="52" r="1.5" fill="#fff" />
-            <circle cx="96" cy="52" r="1.5" fill="#fff" />
+            <circle cx="68" cy="52" r="3" fill="#2c1810" />
+            <circle cx="92" cy="52" r="3" fill="#2c1810" />
+            <circle cx="69" cy="51" r="1" fill="#fff" />
+            <circle cx="93" cy="51" r="1" fill="#fff" />
           </g>
 
-          {/* Nose */}
-          <path d="M 80 55 L 80 62 M 80 62 Q 78 63 76 62" stroke="#D4A574" strokeWidth="2" fill="none" strokeLinecap="round" />
+          {/* Nose - simple sketch */}
+          <path d="M 80 52 L 80 60 Q 78 61 76 60" stroke="#C9A87C" strokeWidth="2" fill="none" strokeLinecap="round" />
 
-          {/* Mustache - Lebanese Style */}
-          <path d="M 60 63 Q 70 61 80 62" stroke="#2c1810" strokeWidth="3" fill="none" strokeLinecap="round" />
-          <path d="M 80 62 Q 90 61 100 63" stroke="#2c1810" strokeWidth="3" fill="none" strokeLinecap="round" />
-          <path d="M 56 64 Q 60 65 64 65" stroke="#2c1810" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-          <path d="M 96 65 Q 100 65 104 64" stroke="#2c1810" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+          {/* Cheerful smile */}
+          <path d="M 67 63 Q 80 69 93 63" stroke="#000" strokeWidth="2.5" fill="none" strokeLinecap="round" filter="url(#sketch)" />
 
-          {/* Big Smile */}
-          <path d="M 65 68 Q 80 75 95 68" stroke="#000" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-          <path d="M 65 68 Q 80 73 95 68" fill="#FFF" opacity="0.3" />
+          {/* Rosy cheeks */}
+          <circle cx="60" cy="58" r="4" fill="#FF8C94" opacity="0.4" />
+          <circle cx="100" cy="58" r="4" fill="#FF8C94" opacity="0.4" />
+
+          {/* Some fruits on ground */}
+          <circle cx="25" cy="165" r="4" fill="#FF6B6B" opacity="0.6" filter="url(#sketch)" />
+          <circle cx="35" cy="167" r="4" fill="#FFA94D" opacity="0.6" filter="url(#sketch)" />
         </svg>
 
         {/* Speech Bubble */}
         <div className="absolute top-16 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-50">
           <div className="bg-white px-4 py-2 rounded-xl shadow-2xl text-sm font-bold text-gray-800 relative border-2 border-green-500">
-            أهلاً وسهلاً! 🇱🇧
+            منتجات طازجة من المزرعة!
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45 w-3 h-3 bg-white border-l-2 border-t-2 border-green-500"></div>
           </div>
         </div>
