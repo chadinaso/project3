@@ -88,6 +88,8 @@ export default function CustomerLayout({ children, onSearch, onCartClick }: Prop
               </div>
             </form>
 
+            <WelcomeCharacter />
+
             <div className="flex items-center gap-3">
               <button
                 onClick={onCartClick}
@@ -144,8 +146,6 @@ export default function CustomerLayout({ children, onSearch, onCartClick }: Prop
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-6">{children}</main>
-
-      <WelcomeCharacter />
     </div>
   );
 }

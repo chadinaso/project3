@@ -2,13 +2,13 @@ import React from 'react';
 
 export default function WelcomeCharacter() {
   return (
-    <div className="fixed bottom-4 left-4 z-50 animate-bounce-slow">
-      <div className="relative group cursor-pointer">
+    <div className="relative group cursor-pointer hidden md:block">
+      <div className="relative">
         <svg
-          width="160"
-          height="180"
+          width="60"
+          height="60"
           viewBox="0 0 160 180"
-          className="drop-shadow-2xl"
+          className="drop-shadow-xl"
         >
           <defs>
             <style>{`
@@ -150,10 +150,10 @@ export default function WelcomeCharacter() {
         </svg>
 
         {/* Speech Bubble */}
-        <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-          <div className="bg-white px-5 py-3 rounded-xl shadow-2xl text-base font-bold text-gray-800 relative border-2 border-green-500">
-            أهلاً وسهلاً بكم! 🇱🇧
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-4 h-4 bg-white border-r-2 border-b-2 border-green-500"></div>
+        <div className="absolute top-16 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-50">
+          <div className="bg-white px-4 py-2 rounded-xl shadow-2xl text-sm font-bold text-gray-800 relative border-2 border-green-500">
+            أهلاً وسهلاً! 🇱🇧
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45 w-3 h-3 bg-white border-l-2 border-t-2 border-green-500"></div>
           </div>
         </div>
       </div>
