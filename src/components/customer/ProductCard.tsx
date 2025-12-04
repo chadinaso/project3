@@ -72,7 +72,7 @@ export default function ProductCard({ product, onViewDetails }: Props) {
             }`}>
               {product.quantity === 0
                 ? 'الكمية نفذت'
-                : `متوفر: ${product.quantity} قطعة`}
+                : `الكمية المتوفرة: ${product.quantity}`}
             </span>
           </div>
         </div>
