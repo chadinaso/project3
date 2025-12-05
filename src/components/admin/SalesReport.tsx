@@ -61,7 +61,8 @@ export default function SalesReport() {
           total_amount,
           status,
           created_at,
-          profiles!inner(full_name, phone)
+          customer_id,
+          profiles:customer_id(full_name, phone)
         `)
         .gte('created_at', startOfDay)
         .lte('created_at', endOfDay)
@@ -89,8 +90,8 @@ export default function SalesReport() {
         created_at: order.created_at,
         total_amount: order.total_amount,
         status: order.status,
-        customer_name: order.profiles.full_name,
-        customer_phone: order.profiles.phone,
+        customer_name: order.profiles?.full_name || 'غير متوفر',
+        customer_phone: order.profiles?.phone || 'غير متوفر',
       })) || [];
       setOrderDetails(orderDetailsData);
 
@@ -134,7 +135,8 @@ export default function SalesReport() {
           total_amount,
           status,
           created_at,
-          profiles!inner(full_name, phone)
+          customer_id,
+          profiles:customer_id(full_name, phone)
         `)
         .gte('created_at', `${dateRange.from}T00:00:00`)
         .lte('created_at', `${dateRange.to}T23:59:59`)
@@ -162,8 +164,8 @@ export default function SalesReport() {
         created_at: order.created_at,
         total_amount: order.total_amount,
         status: order.status,
-        customer_name: order.profiles.full_name,
-        customer_phone: order.profiles.phone,
+        customer_name: order.profiles?.full_name || 'غير متوفر',
+        customer_phone: order.profiles?.phone || 'غير متوفر',
       })) || [];
       setOrderDetails(orderDetailsData);
 
