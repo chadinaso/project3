@@ -59,17 +59,36 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const { data: profile, error: profileError } = await supabaseAdmin
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .maybeSingle();
+    const isAdminEmail = user.email === "admin@jara.com";
 
-    if (profileError || profile?.role !== "admin") {
-      return new Response(
-        JSON.stringify({ success: false, error: "Only admins can delete customers" }),
-        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    if (!isAdminEmail) {
+      const { data: profile, error: profileError } = await supabaseAdmin
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .maybeSingle();
+
+      if (profileError) {
+        console.error("Profile error:", profileError);
+        return new Response(
+          JSON.stringify({ success: false, error: `Profile error: ${profileError.message}` }),
+          { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      if (!profile) {
+        return new Response(
+          JSON.stringify({ success: false, error: "Profile not found" }),
+          { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      if (profile.role !== "admin") {
+        return new Response(
+          JSON.stringify({ success: false, error: "Only admins can delete customers" }),
+          { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
     }
 
     const { customerId } = await req.json();

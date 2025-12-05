@@ -38,16 +38,18 @@ export default function CustomerManagement() {
       });
 
       if (error) {
-        throw error;
+        console.error('Edge Function error:', error);
+        throw new Error(error.message || 'فشل الاتصال بالخادم');
       }
 
-      if (!data.success) {
+      if (data && !data.success) {
         throw new Error(data.error || 'فشل حذف الزبون');
       }
 
       setCustomers(customers.filter(c => c.id !== customerId));
       alert('تم حذف الزبون بنجاح');
     } catch (error: any) {
+      console.error('Delete customer error:', error);
       alert('خطأ في حذف الزبون: ' + error.message);
     } finally {
       setDeletingId(null);
