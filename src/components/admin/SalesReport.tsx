@@ -19,11 +19,21 @@ type ProductSales = {
   totalRevenue: number;
 };
 
+type OrderDetail = {
+  id: string;
+  created_at: string;
+  total_amount: number;
+  status: 'pending' | 'confirmed' | 'cancelled';
+  customer_name: string;
+  customer_phone: string;
+};
+
 export default function SalesReport() {
   const [reportType, setReportType] = useState<ReportType>('daily');
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [dailySales, setDailySales] = useState<DailySales | null>(null);
   const [productSales, setProductSales] = useState<ProductSales[]>([]);
+  const [orderDetails, setOrderDetails] = useState<OrderDetail[]>([]);
   const [loading, setLoading] = useState(false);
   const [dateRange, setDateRange] = useState({
     from: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
@@ -46,9 +56,16 @@ export default function SalesReport() {
 
       const { data: orders, error: ordersError } = await supabase
         .from('orders')
-        .select('id, total_amount, status')
+        .select(`
+          id,
+          total_amount,
+          status,
+          created_at,
+          profiles!inner(full_name, phone)
+        `)
         .gte('created_at', startOfDay)
-        .lte('created_at', endOfDay);
+        .lte('created_at', endOfDay)
+        .order('created_at', { ascending: false });
 
       if (ordersError) throw ordersError;
 
@@ -66,6 +83,16 @@ export default function SalesReport() {
         confirmedOrders,
         cancelledOrders,
       });
+
+      const orderDetailsData: OrderDetail[] = orders?.map(order => ({
+        id: order.id,
+        created_at: order.created_at,
+        total_amount: order.total_amount,
+        status: order.status,
+        customer_name: order.profiles.full_name,
+        customer_phone: order.profiles.phone,
+      })) || [];
+      setOrderDetails(orderDetailsData);
 
       const { data: items, error: itemsError } = await supabase
         .from('order_items')
@@ -102,9 +129,16 @@ export default function SalesReport() {
     try {
       const { data: orders, error: ordersError } = await supabase
         .from('orders')
-        .select('id, total_amount, status, created_at')
+        .select(`
+          id,
+          total_amount,
+          status,
+          created_at,
+          profiles!inner(full_name, phone)
+        `)
         .gte('created_at', `${dateRange.from}T00:00:00`)
-        .lte('created_at', `${dateRange.to}T23:59:59`);
+        .lte('created_at', `${dateRange.to}T23:59:59`)
+        .order('created_at', { ascending: false });
 
       if (ordersError) throw ordersError;
 
@@ -122,6 +156,16 @@ export default function SalesReport() {
         confirmedOrders,
         cancelledOrders,
       });
+
+      const orderDetailsData: OrderDetail[] = orders?.map(order => ({
+        id: order.id,
+        created_at: order.created_at,
+        total_amount: order.total_amount,
+        status: order.status,
+        customer_name: order.profiles.full_name,
+        customer_phone: order.profiles.phone,
+      })) || [];
+      setOrderDetails(orderDetailsData);
 
       const { data: items, error: itemsError } = await supabase
         .from('order_items')
@@ -377,6 +421,81 @@ export default function SalesReport() {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="bg-white rounded-xl shadow-md p-6">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <FileText className="w-6 h-6 text-blue-600" />
+              تفاصيل الطلبات
+            </h2>
+
+            {orderDetails.length === 0 ? (
+              <p className="text-gray-500 text-center py-8">لا توجد طلبات في هذه الفترة</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="bg-gray-50 border-b border-gray-200">
+                      <th className="px-6 py-4 text-right text-sm font-semibold text-gray-700">رقم الطلب</th>
+                      <th className="px-6 py-4 text-right text-sm font-semibold text-gray-700">اسم العميل</th>
+                      <th className="px-6 py-4 text-right text-sm font-semibold text-gray-700">رقم الهاتف</th>
+                      <th className="px-6 py-4 text-right text-sm font-semibold text-gray-700">المبلغ الإجمالي</th>
+                      <th className="px-6 py-4 text-right text-sm font-semibold text-gray-700">الحالة</th>
+                      <th className="px-6 py-4 text-right text-sm font-semibold text-gray-700">التاريخ</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {orderDetails.map((order) => (
+                      <tr
+                        key={order.id}
+                        className={`border-b border-gray-100 transition ${
+                          order.status === 'cancelled'
+                            ? 'bg-red-50 hover:bg-red-100'
+                            : 'hover:bg-gray-50'
+                        }`}
+                      >
+                        <td className={`px-6 py-4 font-mono text-sm ${
+                          order.status === 'cancelled' ? 'text-red-600' : 'text-gray-800'
+                        }`}>
+                          {order.id.slice(0, 8)}
+                        </td>
+                        <td className={`px-6 py-4 font-medium ${
+                          order.status === 'cancelled' ? 'text-red-700' : 'text-gray-800'
+                        }`}>
+                          {order.customer_name}
+                        </td>
+                        <td className={`px-6 py-4 ${
+                          order.status === 'cancelled' ? 'text-red-600' : 'text-gray-700'
+                        }`}>
+                          {order.customer_phone}
+                        </td>
+                        <td className={`px-6 py-4 font-bold ${
+                          order.status === 'cancelled' ? 'text-red-700' : 'text-green-600'
+                        }`}>
+                          ${order.total_amount.toFixed(2)}
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                            order.status === 'pending'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : order.status === 'confirmed'
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-red-100 text-red-800'
+                          }`}>
+                            {order.status === 'pending' ? 'معلق' : order.status === 'confirmed' ? 'مؤكد' : 'ملغي'}
+                          </span>
+                        </td>
+                        <td className={`px-6 py-4 text-sm ${
+                          order.status === 'cancelled' ? 'text-red-600' : 'text-gray-600'
+                        }`}>
+                          {new Date(order.created_at).toLocaleString('ar-EG')}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
 
           <div className="bg-white rounded-xl shadow-md p-6">
