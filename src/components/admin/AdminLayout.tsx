@@ -1,5 +1,5 @@
 import { ReactNode, useState, useEffect } from 'react';
-import { Leaf, Package, ShoppingCart, Users, Settings, LogOut, Menu, X, BarChart3 } from 'lucide-react';
+import { Leaf, Package, ShoppingCart, Users, Settings, LogOut, Menu, X, BarChart3, Bell } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
 
@@ -55,7 +55,18 @@ export default function AdminLayout({ children, currentPage, onNavigate }: Props
         <button onClick={() => setSidebarOpen(!sidebarOpen)}>
           {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
-        <h1 className="text-xl font-bold">لوحة التحكم</h1>
+        <div className="flex items-center gap-3">
+          <h1 className="text-xl font-bold">لوحة التحكم</h1>
+          {newOrdersCount > 0 && (
+            <div className="relative">
+              <div className="absolute inset-0 bg-red-500 rounded-full animate-ping opacity-75"></div>
+              <div className="relative bg-gradient-to-br from-red-500 to-red-600 text-white text-sm font-bold px-2.5 py-1.5 rounded-full shadow-xl border-2 border-white flex items-center gap-1.5 min-w-[50px] justify-center">
+                <Bell className="w-3.5 h-3.5 animate-bounce" />
+                <span>{newOrdersCount}</span>
+              </div>
+            </div>
+          )}
+        </div>
         <button
           onClick={() => signOut()}
           className="p-2 hover:bg-green-700 rounded-lg transition"
@@ -109,7 +120,7 @@ export default function AdminLayout({ children, currentPage, onNavigate }: Props
                     onNavigate(item.id);
                     setSidebarOpen(false);
                   }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition relative ${
                     currentPage === item.id
                       ? 'bg-green-700 text-white'
                       : 'text-green-100 hover:bg-green-700'
@@ -118,9 +129,13 @@ export default function AdminLayout({ children, currentPage, onNavigate }: Props
                   <Icon className="w-5 h-5" />
                   <span className="flex-1 text-right">{item.label}</span>
                   {item.id === 'orders' && newOrdersCount > 0 && (
-                    <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full min-w-[24px] text-center">
-                      {newOrdersCount}
-                    </span>
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-red-500 rounded-full animate-ping opacity-75"></div>
+                      <div className="relative bg-gradient-to-br from-red-500 to-red-600 text-white text-sm font-bold px-2.5 py-1.5 rounded-full shadow-xl border-2 border-white flex items-center gap-1.5 min-w-[50px] justify-center">
+                        <Bell className="w-3.5 h-3.5 animate-bounce" />
+                        <span>{newOrdersCount}</span>
+                      </div>
+                    </div>
                   )}
                 </button>
               );

@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Leaf, AlertCircle, Bell } from 'lucide-react';
+import { useState } from 'react';
+import { Leaf, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { supabase } from '../../lib/supabase';
 
 export default function LoginPage() {
   const [mode, setMode] = useState<'select' | 'admin' | 'customer' | 'register'>('select');
@@ -15,34 +14,7 @@ export default function LoginPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [newOrdersCount, setNewOrdersCount] = useState(0);
   const { signIn, signUp } = useAuth();
-
-  useEffect(() => {
-    loadNewOrdersCount();
-
-    const channel = supabase
-      .channel('orders-changes-login')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => {
-        loadNewOrdersCount();
-      })
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
-
-  const loadNewOrdersCount = async () => {
-    const { count, error } = await supabase
-      .from('orders')
-      .select('*', { count: 'exact', head: true })
-      .eq('status', 'pending');
-
-    if (!error && count !== null) {
-      setNewOrdersCount(count);
-    }
-  };
 
   const areas = [
     'مشغرة',
@@ -130,20 +102,9 @@ export default function LoginPage() {
           <div className="space-y-4">
             <button
               onClick={() => setMode('admin')}
-              className="w-full bg-green-800 hover:bg-green-900 text-white py-4 rounded-lg font-semibold transition relative"
+              className="w-full bg-green-800 hover:bg-green-900 text-white py-4 rounded-lg font-semibold transition"
             >
               دخول كمدير
-              {newOrdersCount > 0 && (
-                <div className="absolute -top-2 -right-2">
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-red-500 rounded-full animate-ping"></div>
-                    <div className="relative bg-gradient-to-br from-red-500 to-red-600 text-white text-sm font-bold px-2.5 py-1.5 rounded-full shadow-xl border-3 border-white flex items-center gap-1.5 min-w-[60px] justify-center">
-                      <Bell className="w-4 h-4 animate-bounce" />
-                      <span className="text-base">{newOrdersCount}</span>
-                    </div>
-                  </div>
-                </div>
-              )}
             </button>
             <button
               onClick={() => setMode('customer')}
