@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { Leaf, AlertCircle } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Leaf, AlertCircle, Bell } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { supabase } from '../../lib/supabase';
 
 export default function LoginPage() {
   const [mode, setMode] = useState<'select' | 'admin' | 'customer' | 'register'>('select');
@@ -14,7 +15,34 @@ export default function LoginPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [newOrdersCount, setNewOrdersCount] = useState(0);
   const { signIn, signUp } = useAuth();
+
+  useEffect(() => {
+    loadNewOrdersCount();
+
+    const channel = supabase
+      .channel('orders-changes-login')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => {
+        loadNewOrdersCount();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  const loadNewOrdersCount = async () => {
+    const { count, error } = await supabase
+      .from('orders')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'pending');
+
+    if (!error && count !== null) {
+      setNewOrdersCount(count);
+    }
+  };
 
   const areas = [
     'مشغرة',
@@ -102,9 +130,20 @@ export default function LoginPage() {
           <div className="space-y-4">
             <button
               onClick={() => setMode('admin')}
-              className="w-full bg-green-800 hover:bg-green-900 text-white py-4 rounded-lg font-semibold transition"
+              className="w-full bg-green-800 hover:bg-green-900 text-white py-4 rounded-lg font-semibold transition relative overflow-hidden group"
             >
-              دخول كمدير
+              <span className="relative z-10">دخول كمدير</span>
+              {newOrdersCount > 0 && (
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-red-500 rounded-full animate-ping opacity-75"></div>
+                    <div className="relative bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg border-2 border-white flex items-center gap-1.5">
+                      <Bell className="w-3.5 h-3.5 animate-bounce" />
+                      <span>{newOrdersCount}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </button>
             <button
               onClick={() => setMode('customer')}
