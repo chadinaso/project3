@@ -33,26 +33,16 @@ export default function CustomerManagement() {
 
     setDeletingId(customerId);
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        throw new Error('يجب تسجيل الدخول أولاً');
-      }
-
-      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/delete-customer`;
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${session.access_token}`,
-          'Content-Type': 'application/json',
-          'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
-        },
-        body: JSON.stringify({ customerId }),
+      const { data, error } = await supabase.functions.invoke('delete-customer', {
+        body: { customerId },
       });
 
-      const result = await response.json();
+      if (error) {
+        throw error;
+      }
 
-      if (!result.success) {
-        throw new Error(result.error || 'فشل حذف الزبون');
+      if (!data.success) {
+        throw new Error(data.error || 'فشل حذف الزبون');
       }
 
       setCustomers(customers.filter(c => c.id !== customerId));
