@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Settings as SettingsIcon, Save, AlertCircle, CheckCircle, Trash2 } from 'lucide-react';
+import { Settings as SettingsIcon, Save, AlertCircle, CheckCircle, Trash2, Shield } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -8,6 +8,7 @@ export default function Settings() {
   const [newsMarquee, setNewsMarquee] = useState('');
   const [loading, setLoading] = useState(false);
   const [deletingOrders, setDeletingOrders] = useState(false);
+  const [makingAdmin, setMakingAdmin] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   useEffect(() => {
@@ -146,6 +147,39 @@ export default function Settings() {
     }
   };
 
+  const makeMeAdmin = async () => {
+    if (!confirm('هل تريد ترقية حسابك الحالي إلى مسؤول؟')) {
+      return;
+    }
+
+    setMakingAdmin(true);
+    setMessage(null);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('make-me-admin');
+
+      if (error) {
+        console.error('Edge Function error:', error);
+        throw new Error(error.message || 'فشل الاتصال بالخادم');
+      }
+
+      if (data && !data.success) {
+        throw new Error(data.error || 'فشل ترقية الحساب');
+      }
+
+      setMessage({ type: 'success', text: 'تم ترقية حسابك إلى مسؤول بنجاح! الرجاء تحديث الصفحة.' });
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (error: any) {
+      console.error('Make admin error:', error);
+      setMessage({ type: 'error', text: error.message || 'حدث خطأ أثناء ترقية الحساب' });
+    } finally {
+      setMakingAdmin(false);
+    }
+  };
+
   return (
     <div className="space-y-6" dir="rtl">
       <div className="bg-white rounded-xl shadow-md p-6">
@@ -172,6 +206,24 @@ export default function Settings() {
         )}
 
         <div className="space-y-6">
+          <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 mb-6">
+            <h2 className="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2">
+              <Shield className="w-6 h-6" />
+              ترقية الحساب إلى مسؤول
+            </h2>
+            <p className="text-blue-600 mb-4">
+              إذا كنت لا تستطيع حذف الزبائن، اضغط على هذا الزر لترقية حسابك الحالي إلى مسؤول
+            </p>
+            <button
+              onClick={makeMeAdmin}
+              disabled={makingAdmin}
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition disabled:opacity-50"
+            >
+              <Shield className="w-5 h-5" />
+              {makingAdmin ? 'جاري الترقية...' : 'ترقيتي إلى مسؤول'}
+            </button>
+          </div>
+
           <div>
             <h2 className="text-xl font-bold text-gray-800 mb-4">شريط الأخبار المتحرك</h2>
             <p className="text-gray-600 mb-4">
