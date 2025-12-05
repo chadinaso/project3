@@ -29,14 +29,34 @@ Deno.serve(async (req: Request) => {
 
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      throw new Error("No authorization header");
+      return new Response(
+        JSON.stringify({ success: false, error: "No authorization header" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
 
     const token = authHeader.replace("Bearer ", "");
-    const { data: { user }, error: userError } = await supabaseAdmin.auth.getUser(token);
+
+    const supabaseClient = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
+      {
+        global: {
+          headers: { Authorization: authHeader },
+        },
+        auth: {
+          persistSession: false,
+        },
+      }
+    );
+
+    const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
 
     if (userError || !user) {
-      throw new Error("Unauthorized");
+      return new Response(
+        JSON.stringify({ success: false, error: "Unauthorized - Invalid token" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
 
     const { data: profile, error: profileError } = await supabaseAdmin
@@ -46,7 +66,10 @@ Deno.serve(async (req: Request) => {
       .maybeSingle();
 
     if (profileError || profile?.role !== "admin") {
-      throw new Error("Only admins can delete customers");
+      return new Response(
+        JSON.stringify({ success: false, error: "Only admins can delete customers" }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
 
     const { customerId } = await req.json();
