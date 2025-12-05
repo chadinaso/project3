@@ -130,16 +130,16 @@ export default function LoginPage() {
           <div className="space-y-4">
             <button
               onClick={() => setMode('admin')}
-              className="w-full bg-green-800 hover:bg-green-900 text-white py-4 rounded-lg font-semibold transition relative overflow-hidden group"
+              className="w-full bg-green-800 hover:bg-green-900 text-white py-4 rounded-lg font-semibold transition relative"
             >
-              <span className="relative z-10">دخول كمدير</span>
+              دخول كمدير
               {newOrdersCount > 0 && (
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
+                <div className="absolute -top-2 -right-2">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-red-500 rounded-full animate-ping opacity-75"></div>
-                    <div className="relative bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg border-2 border-white flex items-center gap-1.5">
-                      <Bell className="w-3.5 h-3.5 animate-bounce" />
-                      <span>{newOrdersCount}</span>
+                    <div className="absolute inset-0 bg-red-500 rounded-full animate-ping"></div>
+                    <div className="relative bg-gradient-to-br from-red-500 to-red-600 text-white text-sm font-bold px-2.5 py-1.5 rounded-full shadow-xl border-3 border-white flex items-center gap-1.5 min-w-[60px] justify-center">
+                      <Bell className="w-4 h-4 animate-bounce" />
+                      <span className="text-base">{newOrdersCount}</span>
                     </div>
                   </div>
                 </div>
