@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Leaf, AlertCircle } from 'lucide-react';
+import { Leaf, AlertCircle, Key } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 export default function LoginPage() {
@@ -14,6 +14,8 @@ export default function LoginPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [creatingAdmin, setCreatingAdmin] = useState(false);
+  const [adminMessage, setAdminMessage] = useState('');
   const { signIn, signUp } = useAuth();
 
   const areas = [
@@ -31,6 +33,35 @@ export default function LoginPage() {
     'كفريا',
     'أخرى'
   ];
+
+  const handleCreateAdmin = async () => {
+    setCreatingAdmin(true);
+    setAdminMessage('');
+    setError('');
+
+    try {
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-admin`;
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setAdminMessage(`تم بنجاح! استخدم: admin@jara.com / admin123`);
+      } else {
+        setError(data.error || 'حدث خطأ');
+      }
+    } catch (err: any) {
+      setError(err.message || 'حدث خطأ في الاتصال');
+    } finally {
+      setCreatingAdmin(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,6 +130,12 @@ export default function LoginPage() {
             <p className="text-6xl bg-gradient-to-r from-green-700 via-emerald-600 to-green-800 bg-clip-text text-transparent drop-shadow-lg mt-3" style={{ fontFamily: "'Lateef', 'Arial', serif", fontWeight: 700, textShadow: '0 2px 4px rgba(34, 197, 94, 0.3)', letterSpacing: '0.08em' }}>مشغرة</p>
           </div>
 
+          {adminMessage && (
+            <div className="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+              <span>{adminMessage}</span>
+            </div>
+          )}
+
           <div className="space-y-4">
             <button
               onClick={() => setMode('admin')}
@@ -120,8 +157,17 @@ export default function LoginPage() {
             </button>
           </div>
 
-          <div className="mt-6 pt-4 border-t border-gray-200">
-            <div className="relative inline-block w-full">
+          <div className="mt-6 pt-4 border-t border-gray-200 space-y-4">
+            <button
+              onClick={handleCreateAdmin}
+              disabled={creatingAdmin}
+              className="w-full flex items-center justify-center gap-2 text-sm text-gray-600 hover:text-green-700 py-2 transition"
+            >
+              <Key className="w-4 h-4" />
+              {creatingAdmin ? 'جاري الإنشاء...' : 'إنشاء / إعادة تعيين حساب المدير'}
+            </button>
+
+            <div className="relative inline-block w-full pt-2">
               {/* أوراق صغيرة حول النص */}
               <div className="absolute left-1/2 -translate-x-1/2 top-0 w-48">
                 <div className="absolute -right-8 top-0 animate-leaf-float">

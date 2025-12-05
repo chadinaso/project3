@@ -1,13 +1,21 @@
 import { useEffect, useState } from 'react';
-import { Package, ShoppingCart, Users, TrendingUp } from 'lucide-react';
+import { Package, ShoppingCart, Users, TrendingUp, AlertCircle } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function Dashboard() {
+  const { profile } = useAuth();
   const [stats, setStats] = useState({
     totalProducts: 0,
     totalOrders: 0,
     totalCustomers: 0,
     todaySales: 0,
+    newOrders: 0,
+  });
+  const [diagnostics, setDiagnostics] = useState({
+    role: '',
+    canReadOrders: false,
+    errorMessage: '',
   });
 
   useEffect(() => {
@@ -15,7 +23,7 @@ export default function Dashboard() {
   }, []);
 
   const loadStats = async () => {
-    const [productsRes, ordersRes, customersRes, todayOrdersRes] = await Promise.all([
+    const [productsRes, ordersRes, customersRes, todayOrdersRes, newOrdersRes] = await Promise.all([
       supabase.from('products').select('id', { count: 'exact', head: true }),
       supabase.from('orders').select('id', { count: 'exact', head: true }),
       supabase.from('profiles').select('id', { count: 'exact', head: true }).eq('role', 'customer'),
@@ -23,15 +31,30 @@ export default function Dashboard() {
         .from('orders')
         .select('total_amount')
         .gte('created_at', new Date().toISOString().split('T')[0]),
+      supabase.from('orders').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
     ]);
 
     const todaySales = todayOrdersRes.data?.reduce((sum, order) => sum + Number(order.total_amount), 0) || 0;
+
+    setDiagnostics({
+      role: profile?.role || 'غير معروف',
+      canReadOrders: !ordersRes.error,
+      errorMessage: ordersRes.error?.message || newOrdersRes.error?.message || '',
+    });
+
+    console.log('معلومات التشخيص:', {
+      role: profile?.role,
+      ordersError: ordersRes.error,
+      newOrdersError: newOrdersRes.error,
+      newOrdersCount: newOrdersRes.count,
+    });
 
     setStats({
       totalProducts: productsRes.count || 0,
       totalOrders: ordersRes.count || 0,
       totalCustomers: customersRes.count || 0,
       todaySales,
+      newOrders: newOrdersRes.count || 0,
     });
   };
 
@@ -47,6 +70,12 @@ export default function Dashboard() {
       value: stats.totalOrders,
       icon: ShoppingCart,
       color: 'bg-green-600',
+    },
+    {
+      title: 'طلبات جديدة',
+      value: stats.newOrders,
+      icon: ShoppingCart,
+      color: 'bg-red-500',
     },
     {
       title: 'عدد الزبائن',
@@ -66,7 +95,23 @@ export default function Dashboard() {
     <div>
       <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 sm:mb-8">لوحة المعلومات</h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      {diagnostics.errorMessage && (
+        <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+          <div>
+            <h3 className="font-bold text-red-800 mb-1">تحذير: خطأ في الصلاحيات</h3>
+            <p className="text-red-700 text-sm mb-2">{diagnostics.errorMessage}</p>
+            <p className="text-red-600 text-sm">
+              <strong>الدور الحالي:</strong> {diagnostics.role}
+            </p>
+            <p className="text-red-600 text-sm">
+              <strong>الصلاحيات:</strong> {diagnostics.canReadOrders ? 'يمكن القراءة' : 'لا يمكن القراءة'}
+            </p>
+          </div>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
         {statCards.map((card) => {
           const Icon = card.icon;
           return (
@@ -91,6 +136,14 @@ export default function Dashboard() {
           مرحباً بك في لوحة التحكم الخاصة بمتجر المنتجات العضوية. يمكنك من هنا إدارة المنتجات والطلبات
           والزبائن.
         </p>
+        <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+          <p className="text-sm text-gray-700">
+            <strong>معلومات الحساب:</strong> {profile?.full_name} ({diagnostics.role})
+          </p>
+          <p className="text-sm text-gray-700 mt-1">
+            <strong>عدد الطلبات الجديدة:</strong> {stats.newOrders}
+          </p>
+        </div>
       </div>
     </div>
   );

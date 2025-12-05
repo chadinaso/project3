@@ -35,7 +35,13 @@ export default function AdminLayout({ children, currentPage, onNavigate }: Props
       .select('*', { count: 'exact', head: true })
       .eq('status', 'pending');
 
-    if (!error && count !== null) {
+    if (error) {
+      console.error('خطأ في تحميل عدد الطلبات:', error);
+      return;
+    }
+
+    if (count !== null) {
+      console.log('عدد الطلبات الجديدة:', count);
       setNewOrdersCount(count);
     }
   };
