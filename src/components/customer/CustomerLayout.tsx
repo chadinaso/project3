@@ -1,5 +1,5 @@
 import { ReactNode, useState, useEffect } from 'react';
-import { Leaf, ShoppingCart, User, LogOut, Search } from 'lucide-react';
+import { Leaf, ShoppingCart, User, LogOut, Search, Package } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/CartContext';
 import { supabase } from '../../lib/supabase';
@@ -9,9 +9,10 @@ type Props = {
   children: ReactNode;
   onSearch: (term: string) => void;
   onCartClick: () => void;
+  onOrdersClick: () => void;
 };
 
-export default function CustomerLayout({ children, onSearch, onCartClick }: Props) {
+export default function CustomerLayout({ children, onSearch, onCartClick, onOrdersClick }: Props) {
   const { signOut, profile } = useAuth();
   const { itemCount } = useCart();
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -117,6 +118,16 @@ export default function CustomerLayout({ children, onSearch, onCartClick }: Prop
                       <p className="text-sm text-gray-600">مرحباً،</p>
                       <p className="font-semibold text-gray-800">{profile?.full_name}</p>
                     </div>
+                    <button
+                      onClick={() => {
+                        onOrdersClick();
+                        setShowUserMenu(false);
+                      }}
+                      className="w-full px-4 py-2 text-right hover:bg-gray-100 flex items-center gap-2 text-gray-700"
+                    >
+                      <Package className="w-4 h-4" />
+                      طلباتي
+                    </button>
                     <button
                       onClick={() => signOut()}
                       className="w-full px-4 py-2 text-right hover:bg-gray-100 flex items-center gap-2 text-gray-700"

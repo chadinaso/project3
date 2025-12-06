@@ -12,10 +12,12 @@ import Settings from './components/admin/Settings';
 import CustomerLayout from './components/customer/CustomerLayout';
 import ProductCatalog from './components/customer/ProductCatalog';
 import Cart from './components/customer/Cart';
+import MyOrders from './components/customer/MyOrders';
 
 function AppContent() {
   const { user, profile, loading } = useAuth();
   const [adminPage, setAdminPage] = useState<'dashboard' | 'products' | 'orders' | 'customers' | 'reports' | 'settings'>('dashboard');
+  const [customerPage, setCustomerPage] = useState<'catalog' | 'orders'>('catalog');
   const [searchTerm, setSearchTerm] = useState('');
   const [showCart, setShowCart] = useState(false);
 
@@ -48,8 +50,23 @@ function AppContent() {
   }
 
   return (
-    <CustomerLayout onSearch={setSearchTerm} onCartClick={() => setShowCart(true)}>
-      <ProductCatalog searchTerm={searchTerm} />
+    <CustomerLayout
+      onSearch={setSearchTerm}
+      onCartClick={() => setShowCart(true)}
+      onOrdersClick={() => setCustomerPage('orders')}
+    >
+      {customerPage === 'catalog' && <ProductCatalog searchTerm={searchTerm} />}
+      {customerPage === 'orders' && (
+        <div>
+          <button
+            onClick={() => setCustomerPage('catalog')}
+            className="mb-4 text-green-600 hover:text-green-800 font-semibold flex items-center gap-2"
+          >
+            ← العودة إلى المنتجات
+          </button>
+          <MyOrders />
+        </div>
+      )}
       {showCart && <Cart onClose={() => setShowCart(false)} />}
     </CustomerLayout>
   );
