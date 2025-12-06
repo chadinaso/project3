@@ -70,10 +70,12 @@ export default function SalesReport() {
 
       if (ordersError) throw ordersError;
 
-      const totalOrders = orders?.length || 0;
-      const totalRevenue = orders?.reduce((sum, order) => sum + order.total_amount, 0) || 0;
+      // احتساب المبيعات فقط من الطلبات المؤكدة
+      const confirmedOrdersList = orders?.filter(o => o.status === 'confirmed') || [];
+      const totalOrders = confirmedOrdersList.length;
+      const totalRevenue = confirmedOrdersList.reduce((sum, order) => sum + order.total_amount, 0);
       const pendingOrders = orders?.filter(o => o.status === 'pending').length || 0;
-      const confirmedOrders = orders?.filter(o => o.status === 'confirmed').length || 0;
+      const confirmedOrders = confirmedOrdersList.length;
       const cancelledOrders = orders?.filter(o => o.status === 'cancelled').length || 0;
 
       setDailySales({
@@ -95,10 +97,12 @@ export default function SalesReport() {
       })) || [];
       setOrderDetails(orderDetailsData);
 
+      // احتساب المنتجات فقط من الطلبات المؤكدة
+      const confirmedOrderIds = confirmedOrdersList.map(o => o.id);
       const { data: items, error: itemsError } = await supabase
         .from('order_items')
         .select('product_name, quantity, price, order_id')
-        .in('order_id', orders?.map(o => o.id) || []);
+        .in('order_id', confirmedOrderIds);
 
       if (itemsError) throw itemsError;
 
@@ -144,10 +148,12 @@ export default function SalesReport() {
 
       if (ordersError) throw ordersError;
 
-      const totalOrders = orders?.length || 0;
-      const totalRevenue = orders?.reduce((sum, order) => sum + order.total_amount, 0) || 0;
+      // احتساب المبيعات فقط من الطلبات المؤكدة
+      const confirmedOrdersList = orders?.filter(o => o.status === 'confirmed') || [];
+      const totalOrders = confirmedOrdersList.length;
+      const totalRevenue = confirmedOrdersList.reduce((sum, order) => sum + order.total_amount, 0);
       const pendingOrders = orders?.filter(o => o.status === 'pending').length || 0;
-      const confirmedOrders = orders?.filter(o => o.status === 'confirmed').length || 0;
+      const confirmedOrders = confirmedOrdersList.length;
       const cancelledOrders = orders?.filter(o => o.status === 'cancelled').length || 0;
 
       setDailySales({
@@ -169,10 +175,12 @@ export default function SalesReport() {
       })) || [];
       setOrderDetails(orderDetailsData);
 
+      // احتساب المنتجات فقط من الطلبات المؤكدة
+      const confirmedOrderIds = confirmedOrdersList.map(o => o.id);
       const { data: items, error: itemsError } = await supabase
         .from('order_items')
         .select('product_name, quantity, price, order_id')
-        .in('order_id', orders?.map(o => o.id) || []);
+        .in('order_id', confirmedOrderIds);
 
       if (itemsError) throw itemsError;
 
