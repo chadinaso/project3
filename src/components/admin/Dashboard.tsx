@@ -30,6 +30,7 @@ export default function Dashboard() {
       supabase
         .from('orders')
         .select('total_amount')
+        .eq('status', 'confirmed')
         .gte('created_at', new Date().toISOString().split('T')[0]),
       supabase.from('orders').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
     ]);
