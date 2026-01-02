@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Leaf, AlertCircle, Key } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import WalkingFarmer from './WalkingFarmer';
 
 export default function LoginPage() {
   const [mode, setMode] = useState<'select' | 'admin' | 'customer' | 'register'>('select');
@@ -129,6 +130,8 @@ export default function LoginPage() {
 
             <p className="text-6xl bg-gradient-to-r from-green-700 via-emerald-600 to-green-800 bg-clip-text text-transparent drop-shadow-lg mt-3" style={{ fontFamily: "'Lateef', 'Arial', serif", fontWeight: 700, textShadow: '0 2px 4px rgba(34, 197, 94, 0.3)', letterSpacing: '0.08em' }}>مشغرة</p>
           </div>
+
+          <WalkingFarmer />
 
           {adminMessage && (
             <div className="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">

@@ -144,6 +144,19 @@
   animation: bounce-slow 3s ease-in-out infinite;
 }
 
+@keyframes walk-across {
+  0% {
+    transform: translateX(-120px);
+  }
+  100% {
+    transform: translateX(calc(100vw + 120px));
+  }
+}
+
+.animate-walk-across {
+  animation: walk-across 18s linear infinite;
+}
+
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
